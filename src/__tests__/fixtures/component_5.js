@@ -10,9 +10,11 @@ const Button = ({ children, onClick, style = {} }) => (
 );
 
 Button.propTypes = {
+  // describes children
   children: React.PropTypes.string.isRequired,
+  // describes onClick
   onClick: React.PropTypes.func,
-  style: React.PropTypes.object,
+  style: React.PropTypes.object, // describes style
 };
 
 export default Button;

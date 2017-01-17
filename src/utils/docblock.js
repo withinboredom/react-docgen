@@ -47,6 +47,28 @@ export function getDocblock(path: NodePath): ?string {
   if (comments.length > 0) {
     return parseDocblock(comments[comments.length - 1].value);
   }
+
+  return null;
+}
+
+/**
+ * Given a path, this function returns the closest preceding comment, if it exists
+ * @param path
+ */
+export function getComments(path: NodePath): ?string {
+  var comments = [];
+  if (path.node.leadingComments) {
+    comments = path.node.leadingComments;
+  } else if (path.node.comments) {
+    comments = path.node.comments.filter(
+      comment => comment.type == 'CommentLine'
+    );
+  }
+
+  if (comments.length > 0) {
+    return parseDocblock(comments[comments.length - 1].value);
+  }
+
   return null;
 }
 

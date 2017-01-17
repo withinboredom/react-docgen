@@ -102,6 +102,39 @@ describe('propDocBlockHandler', () => {
       });
     });
 
+    it('does not ignore non-docblock comments if there are no docblocks', () => {
+      var definition = parse(getSrc(`
+        {
+          /**
+           * Foo comment
+           */
+          // TODO: this is ignored
+          foo: Prop.bool,
+          /* This is not an ignored comment */
+          bar: Prop.bool,
+          baz: Prop.bool, // this isn't ignored either
+          // nor this one
+          shoo: Prop.bool,
+        }
+      `));
+
+      propDocBlockHandler(documentation, definition);
+      expect(documentation.descriptors).toEqual({
+        foo: {
+          description: 'Foo comment',
+        },
+        bar: {
+          description: 'This is not an ignored comment',
+        },
+        baz: {
+          description: "this isn't ignored either",
+        },
+        shoo: {
+          description: 'nor this one',
+        }
+      })
+    });
+
     it('only considers the comment with the property below it', () => {
       var definition = parse(getSrc(`
         {

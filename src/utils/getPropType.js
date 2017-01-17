@@ -103,6 +103,11 @@ function getPropTypeObjectOf(argumentPath) {
   return type;
 }
 
+
+function log(msg) {
+    require('fs').appendFileSync('/tmp/jest.log.txt', msg + '\n', {'encoding': 'utf8'});
+}
+
 function getPropTypeShape(argumentPath) {
   var type: PropTypeDescriptor = {name: 'shape'};
   if (!types.ObjectExpression.check(argumentPath.node)) {
@@ -120,6 +125,7 @@ function getPropTypeShape(argumentPath) {
       var descriptor: PropDescriptor | PropTypeDescriptor =
         getPropType(propertyPath.get('value'));
       var docs = getDocblock(propertyPath);
+      log(docs);
       if (docs) {
         descriptor.description = docs;
       }

@@ -12,7 +12,7 @@
 
 import type Documentation from '../Documentation';
 import getPropertyName from './getPropertyName';
-import { getDocblock } from './docblock';
+import { getDocblock, getComments } from './docblock';
 
 /**
  *
@@ -26,4 +26,8 @@ export default (documentation: Documentation, propertyPath: NodePath) => {
   }
 
   propDescriptor.description = getDocblock(propertyPath) || '';
+
+  if (propDescriptor.description === '') {
+    propDescriptor.description = getComments(propertyPath) || '';
+  }
 }
